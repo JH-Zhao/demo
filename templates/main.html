@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>疫情监控</title>
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+		<link href="../static/css/main.css"rel="stylesheet"/>
+		<style>
+			
+		</style>		
+	</head>
+	<body>
+        <div id="title">全国疫情实时追踪</div>
+		<div id="l1">我是左1</div>
+		<div id="l2">我是左2</div>
+		<div id="c1">
+			<div class="num"><h1>123</h1></div>
+			<div class="num"><h1>123</h1></div>
+			<div class="num"><h1>123</h1></div>
+			<div class="num"><h1>123</h1></div>
+			<div class="text"><h2>累计确诊</h2></div>
+			<div class="text"><h2>剩余疑似</h2></div>
+			<div class="text"><h2>累计治愈</h2></div>
+			<div class="text"><h2>累计死亡</h2></div>
+			
+		</div>
+		<div id="c2">我是中2</div>
+		<div id="r1">我是右1</div>
+		<div id="r2">我是右2</div>
+		<div id="time">我是时间</div>
+		<div id="body"></div>
+	<script>
+		function get_time(){
+				$.ajax({
+					url:"/time",
+					timeout:10000,//超时时间设置为10s
+					success:function(data){
+						$("#time").html(data)  //#的作用是查找id
+					},
+					error:function(xhr,type,errorThrown){
+				}
+			});
+		}
+
+		function get_cl_data(){
+		    $.ajax({
+                url:"/c1",
+                timeout:10000,
+                success:function (data){
+                    $(".num h1").eq(0).text(data['confirm']);
+                    $(".num h1").eq(1).text(data['suspect']);
+                    $(".num h1").eq(2).text(data['heal']);
+                    $(".num h1").eq(3).text(data['dead']);
+                },
+                error:function (xhr,type,errorThrown){
+
+                }
+            });
+        }
+		setInterval(get_time,1000)
+        setInterval(get_cl_data,1000)
+	</script>
+	</body>
+</html>
